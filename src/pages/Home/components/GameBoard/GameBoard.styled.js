@@ -12,6 +12,8 @@ export const Cell = styled.div`
   position: relative;
   width: 100%;
   padding-top: 100%;
+  border: 1px solid black;
+  box-shadow: ${props => props.isActive ? '1px 1px 10px 5px rgba(0,0,0,0.2)' : 'none'};
 `;
 
 export const CellContent = styled.div`

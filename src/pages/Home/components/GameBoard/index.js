@@ -8,6 +8,12 @@ const numberOfGridCells = gridWidth * gridHeight;
 const cells = Array.from(Array(numberOfGridCells).keys())
 
 export default function GameBoard() {
+  const [activeCell, setActiveCell] = React.useState(-1);
+
+  const handleCellClicked = (cellNumber) => {
+    setActiveCell(cellNumber);
+  }
+
   return (
     <Styled.GameBoard
       gridWidth={gridWidth}
@@ -15,10 +21,12 @@ export default function GameBoard() {
     >
       {cells.map((_, index) => {
         return (
-          <Styled.Cell>
-            <Styled.CellContent>
-              {`Hello ${index}`}
-            </Styled.CellContent>
+          <Styled.Cell
+            key={index}
+            onClick={() => handleCellClicked(index)}
+            isActive={index === activeCell}
+          >
+            <Styled.CellContent />
           </Styled.Cell>
         );
       })}
