@@ -1,14 +1,12 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import * as Styled from './GameBoard.styled';
 
-const gridWidth = 4;
-const gridHeight = 4;
 
-const numberOfGridCells = gridWidth * gridHeight;
-const cells = Array.from(Array(numberOfGridCells).keys())
-
-export default function GameBoard() {
+export default function GameBoard(props) {
   const [activeCell, setActiveCell] = React.useState(-1);
+  const { boardState } = props;
+  const { gridWidth, gridHeight, cellData } = boardState;
 
   const handleCellClicked = (cellNumber) => {
     setActiveCell(cellNumber);
@@ -19,7 +17,7 @@ export default function GameBoard() {
       gridWidth={gridWidth}
       gridHeight={gridHeight}
     >
-      {cells.map((_, index) => {
+      {cellData.map((_, index) => {
         return (
           <Styled.Cell
             key={index}
@@ -32,4 +30,8 @@ export default function GameBoard() {
       })}
     </Styled.GameBoard>
   )
+}
+
+GameBoard.props = {
+  boardState: PropTypes.object,
 }

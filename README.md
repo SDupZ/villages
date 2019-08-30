@@ -1,6 +1,31 @@
 # Villages
 (Name TBC)
 
+## Ideas
+
+- Keep track of all gamestate / boardstate changes to replay entire game.
+
+
+State
+
+PlayerState
+Board is full
+What resource or building is in inside each cell
+Secret building per player
+Other peoples board state
+My board state
+
+
+GameState
+Time Elapsed
+Date started
+Current buildings allowed for the game
+Who's turn is it to choose the block (master builder)
+The current turn number
+The current block that must be placed
+Have all players placed their block
+
+
 ## Basic rules
 
 ### Legend
