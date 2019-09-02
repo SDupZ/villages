@@ -1,7 +1,8 @@
 import React from 'react';
-import blockTypes from 'constants/blockTypes';
+import gamePhases from 'constants/gamePhases';
 import { getInitialCellData } from 'utils';
 import GameBoard from './components/GameBoard';
+import BlockSelection from './components/BlockSelection';
 import * as Styled from './Home.styled';
 
 const DEFAULT_GRID_WIDTH = 4;
@@ -15,8 +16,8 @@ const players = [
 
 const initialGameState = {
   turnNumber: 0,
-  currentBlock: blockTypes.BRICK,
   playersLeftToEndTurn: players,
+  phase: gamePhases.BLOCK_SELECTION,
 };
 
 const initialBoardState = {
@@ -26,21 +27,31 @@ const initialBoardState = {
 };
 
 
-const END_TURN_ACTION = 'gameState/END_TURN';
+const END_TURN = 'gameState/END_TURN';
+const SELECT_BLOCK = 'gameState/SELECT_BLOCK';
 
 const boardStateReducer = (state, action) => state;
 
 const gameStateReducer = (state, action) => {
   const { type, payload } = action;
+  const { playerId, block } = payload;
+  let newState = {};
 
   switch (type) {
-    case END_TURN_ACTION:
-      const { playerId } = payload;
-      const newState = {
+    case END_TURN:
+      const playersLeftToEndTurn = state.playersLeftToEndTurn.filter(player => player.id !== playerId);
+      newState = {
         ...state,
-        playersLeftToEndTurn: state.playersLeftToEndTurn.filter(player => player.id !== playerId),
+        playersLeftToEndTurn,
+        phase: playersLeftToEndTurn.length > 0 ? state.phase : gamePhases.BLOCK_SELECTION,
       };
-      console.log(newState);
+      return newState;
+    case SELECT_BLOCK:
+      newState = {
+        ...state,
+        phase: gamePhases.BLOCK_PLACEMENT,
+        currentBlock: block,
+      }
       return newState;
     default:
       return state;
@@ -52,15 +63,29 @@ export default function Home() {
   const [gameState, dispatchUpdateGameState] = React.useReducer(gameStateReducer, initialGameState);
   const [boardState, dispatchUpdateBoardState] = React.useReducer(boardStateReducer, initialBoardState);
 
+  const phase = gameState.phase;
 
   const handleEndTurn = () => {
-    dispatchUpdateGameState({ type: END_TURN_ACTION, payload: { playerId: 1 } })
+    dispatchUpdateGameState({ type: END_TURN, payload: { playerId: 1 } })
   };
+
+  const renderBlockSelection = () => {
+    return (
+      <BlockSelection onSelectBlock={(block) => {
+        dispatchUpdateGameState({ type: SELECT_BLOCK, payload: { block } })
+      }} />
+    )
+  }
+  
+  const renderBlockPlacement = () => <div>Phase 2</div>;
 
   return (
     <Styled.Home>
+      {phase === gamePhases.BLOCK_SELECTION && renderBlockSelection()}
+      {phase === gamePhases.BLOCK_PLACEMENT && renderBlockPlacement()}
+
+      <Styled.GameBoard><GameBoard boardState={boardState} /></Styled.GameBoard>
       <div>Players left to end their turn: {gameState.playersLeftToEndTurn.map((player) => (player.name))}</div>
-      <GameBoard boardState={boardState} />
       <button onClick={handleEndTurn}>End Turn</button>
     </Styled.Home>
   );
