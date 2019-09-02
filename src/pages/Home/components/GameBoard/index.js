@@ -4,27 +4,22 @@ import * as Styled from './GameBoard.styled';
 
 
 export default function GameBoard(props) {
-  const [activeCell, setActiveCell] = React.useState(-1);
-  const { boardState } = props;
+  const { boardState, activeCell, handleCellClicked } = props;
   const { gridWidth, gridHeight, cellData } = boardState;
-
-  const handleCellClicked = (cellNumber) => {
-    setActiveCell(cellNumber);
-  }
 
   return (
     <Styled.GameBoard
       gridWidth={gridWidth}
       gridHeight={gridHeight}
     >
-      {cellData.map((_, index) => {
+      {cellData.map((cellData, index) => {
         return (
           <Styled.Cell
             key={index}
             onClick={() => handleCellClicked(index)}
             isActive={index === activeCell}
           >
-            <Styled.CellContent />
+            <Styled.CellContent>{cellData.block}</Styled.CellContent>
           </Styled.Cell>
         );
       })}
