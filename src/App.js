@@ -1,8 +1,9 @@
 import React from 'react';
-import Home from 'pages/Home';
+import Lobby from 'pages/Lobby';
+// import GameSession from 'pages/GameSession';
 
 function App() {
-  return <Home />;
+  return <Lobby />;
 }
 
 export default App;

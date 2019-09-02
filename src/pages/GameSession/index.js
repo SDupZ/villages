@@ -3,7 +3,7 @@ import gamePhases from 'constants/gamePhases';
 import { getInitialCellData } from 'utils';
 import GameBoard from './components/GameBoard';
 import BlockSelection from './components/BlockSelection';
-import * as Styled from './Home.styled';
+import * as Styled from './GameSession.styled';
 
 const DEFAULT_GRID_WIDTH = 4;
 const DEFAULT_GRID_HEIGHT = 4;
@@ -77,7 +77,7 @@ const gameStateReducer = (state, action) => {
 };
 
 
-export default function Home() {
+export default function GameSession() {
   const [gameState, dispatchUpdateGameState] = React.useReducer(gameStateReducer, initialGameState);
   const [boardState, dispatchUpdateBoardState] = React.useReducer(boardStateReducer, initialBoardState);
 
@@ -104,7 +104,7 @@ export default function Home() {
   const renderBlockPlacement = () => <div>Phase 2</div>;
 
   return (
-    <Styled.Home>
+    <Styled.Wrapper>
       <Styled.GameBoard>
         <GameBoard
           boardState={boardState}
@@ -121,6 +121,6 @@ export default function Home() {
           <div>Players left to end their turn: {gameState.playersLeftToEndTurn.map((player) => (player.name))}</div>
         </React.Fragment>
       )}
-    </Styled.Home>
+    </Styled.Wrapper>
   );
 }
