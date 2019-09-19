@@ -21,6 +21,7 @@ export default function BlockSelection(props) {
 
   return (
     <Styled.BlockSelection>
+      You are the master builder. Select a block:
       {blocks.map((blockKey) => {
         const block = blockTypes[blockKey];
         return (

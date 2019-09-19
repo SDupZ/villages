@@ -1,9 +1,9 @@
 const blockTypes = {
-  WOOD: { displayName: 'Button 1', value: 'wood' },
-  WHEAT: { displayName: 'Button 2', value: 'wheat' },
-  BRICK: { displayName: 'Button 3', value: 'brick' },
-  STONE: { displayName: 'Button 4', value: 'stone' },
-  GLASS: { displayName: 'Button 5', value: 'glass' },
+  WOOD: { displayName: 'Wood', value: 'wood' },
+  WHEAT: { displayName: 'Wheat', value: 'wheat' },
+  BRICK: { displayName: 'Brick', value: 'brick' },
+  STONE: { displayName: 'Stone', value: 'stone' },
+  GLASS: { displayName: 'Glass', value: 'glass' },
 };
 
 export default blockTypes;
