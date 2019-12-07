@@ -3,8 +3,8 @@ import styled from 'styled-components';
 export const GameBoard = styled.div`
   display: grid;
   width: 100%;
-  grid-template-columns: ${props => `repeat(${props.gridWidth}, 1fr)`};
-  grid-template-rows: ${props => `repeat(${props.gridHeight}, 1fr)`};
+  grid-template-columns: ${props => `repeat(${props.numberOfCellsX}, 1fr)`};
+  grid-template-rows: ${props => `repeat(${props.numberOfCellsY}, 1fr)`};
   grid-gap: 10px;
 `;
 

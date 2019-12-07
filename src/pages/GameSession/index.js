@@ -5,10 +5,10 @@ import GameBoard from './components/GameBoard';
 import BlockSelection from './components/BlockSelection';
 import * as Styled from './GameSession.styled';
 
-const DEFAULT_GRID_WIDTH = 4;
-const DEFAULT_GRID_HEIGHT = 4;
+const DEFAULT_GRID_CELLS_X = 4;
+const DEFAULT_GRID_CELLS_Y = 4;
 
-const initialCellData = getInitialCellData(DEFAULT_GRID_WIDTH, DEFAULT_GRID_HEIGHT);
+const initialCellData = getInitialCellData(DEFAULT_GRID_CELLS_X, DEFAULT_GRID_CELLS_Y);
 
 const players = [
   { id: 1, name: 'Player One' }
@@ -21,8 +21,8 @@ const initialGameState = {
 };
 
 const initialBoardState = {
-  gridWidth: DEFAULT_GRID_WIDTH,
-  gridHeight: DEFAULT_GRID_HEIGHT,
+  numberOfCellsX: DEFAULT_GRID_CELLS_X,
+  numberOfCellsY: DEFAULT_GRID_CELLS_Y,
   cellData: initialCellData,
 };
 

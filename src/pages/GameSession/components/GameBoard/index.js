@@ -5,12 +5,12 @@ import * as Styled from './GameBoard.styled';
 
 export default function GameBoard(props) {
   const { boardState, activeCell, handleCellClicked } = props;
-  const { gridWidth, gridHeight, cellData } = boardState;
+  const { numberOfCellsX, numberOfCellsY, cellData } = boardState;
 
   return (
     <Styled.GameBoard
-      gridWidth={gridWidth}
-      gridHeight={gridHeight}
+      numberOfCellsX={numberOfCellsX}
+      numberOfCellsY={numberOfCellsY}
     >
       {cellData.map((cellData, index) => {
         return (
