@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import blockTypes from 'constants/blockTypes';
 import * as Styled from './GameBoard.styled';
 
 
@@ -13,13 +14,16 @@ export default function GameBoard(props) {
       numberOfCellsY={numberOfCellsY}
     >
       {cellData.map((cellData, index) => {
+        console.log(cellData);
         return (
           <Styled.Cell
             key={index}
             onClick={() => handleCellClicked(index)}
             isActive={index === activeCell}
           >
-            <Styled.CellContent>{cellData.block}</Styled.CellContent>
+            {cellData.blockType &&
+              <Styled.CellContent color={blockTypes[cellData.blockType].color} />
+            }
           </Styled.Cell>
         );
       })}

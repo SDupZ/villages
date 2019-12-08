@@ -26,8 +26,9 @@ export default function BlockSelection(props) {
         const block = blockTypes[blockKey];
         return (
           <Styled.Block
-            key={block.value}
-            onClick={() => handleBlockClicked(block.value)}
+            key={blockKey}
+            onClick={() => handleBlockClicked(blockKey)}
+            color={block.color}
           >
             {block.displayName}
           </Styled.Block>

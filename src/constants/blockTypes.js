@@ -1,9 +1,11 @@
+import colors from './colors';
+
 const blockTypes = {
-  WOOD: { displayName: 'Wood', value: 'wood' },
-  WHEAT: { displayName: 'Wheat', value: 'wheat' },
-  BRICK: { displayName: 'Brick', value: 'brick' },
-  STONE: { displayName: 'Stone', value: 'stone' },
-  GLASS: { displayName: 'Glass', value: 'glass' },
+  WOOD: { displayName: 'Wood', color: colors.bucaneer },
+  WHEAT: { displayName: 'Wheat', color: colors.yellowOrange },
+  BRICK: { displayName: 'Brick', color: colors.pomegranate },
+  STONE: { displayName: 'Stone', color: colors.malta },
+  GLASS: { displayName: 'Glass', color: colors.blueChill },
 };
 
 export default blockTypes;

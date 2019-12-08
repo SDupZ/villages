@@ -3,7 +3,7 @@ export const getInitialCellData = (gridWidth, gridHeight) => {
   const cells = Array
     .from(Array(numberOfGridCells).keys())
     .map(() => ({
-      block: null,
+      blockType: null,
       isNullBlock: false,
     }));
 

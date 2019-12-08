@@ -25,4 +25,15 @@ export const CellContent = styled.div`
   right: 0;
   justify-content: center;
   align-items: center;
+
+  :before {
+    content: '';
+    position: absolute;
+    background: ${props => props.color || 'transparent'};
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    margin: 33% 33%;
+  }
 `;

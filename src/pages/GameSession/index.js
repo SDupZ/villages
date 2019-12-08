@@ -32,14 +32,14 @@ const SELECT_BLOCK = 'gameState/SELECT_BLOCK';
 
 const boardStateReducer = (state, action) => {
   const { type, payload } = action;
-  const { block, cellNumber } = payload;
+  const { blockType, cellNumber } = payload;
 
   let newState = {};
 
   switch (type) {
     case PLACE_BLOCK:
       const newCellData = [...state.cellData];
-      newCellData[cellNumber] = { ...newCellData[cellNumber], block, };
+      newCellData[cellNumber] = { ...newCellData[cellNumber], blockType, };
       newState = {
         ...state,
         cellData: newCellData,
@@ -52,7 +52,7 @@ const boardStateReducer = (state, action) => {
 
 const gameStateReducer = (state, action) => {
   const { type, payload } = action;
-  const { playerId, block } = payload;
+  const { playerId, blockType } = payload;
   let newState = {};
 
   switch (type) {
@@ -68,7 +68,7 @@ const gameStateReducer = (state, action) => {
       newState = {
         ...state,
         phase: gamePhases.BLOCK_PLACEMENT,
-        currentBlock: block,
+        currentBlock: blockType,
       }
       return newState;
     default:
@@ -90,13 +90,13 @@ export default function GameSession() {
 
   const handlePlaceBlock = () => {
     dispatchUpdateGameState({ type: PLACE_BLOCK, payload: { playerId: 1 } });
-    dispatchUpdateBoardState({ type: PLACE_BLOCK, payload: { playerId: 1, cellNumber: activeCell, block: gameState.currentBlock } });
+    dispatchUpdateBoardState({ type: PLACE_BLOCK, payload: { playerId: 1, cellNumber: activeCell, blockType: gameState.currentBlock } });
   };
 
   const renderBlockSelection = () => {
     return (
-      <BlockSelection onSelectBlock={(block) => {
-        dispatchUpdateGameState({ type: SELECT_BLOCK, payload: { block } });
+      <BlockSelection onSelectBlock={(blockType) => {
+        dispatchUpdateGameState({ type: SELECT_BLOCK, payload: { blockType } });
       }} />
     )
   }
@@ -118,7 +118,7 @@ export default function GameSession() {
       {phase === gamePhases.BLOCK_PLACEMENT && renderBlockPlacement()} 
       {phase === gamePhases.BLOCK_PLACEMENT && (
         <React.Fragment>
-          <button onClick={handlePlaceBlock}>Confirm block placement</button>
+          <button onClick={handlePlaceBlock}>Place block</button>
           <div>Players left to end their turn: {gameState.playersLeftToEndTurn.map((player) => (player.name))}</div>
         </React.Fragment>
       )}
