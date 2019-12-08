@@ -112,6 +112,7 @@ export default function GameSession() {
           handleCellClicked={handleCellClicked}
         />
       </Styled.GameBoard>
+    
 
       {phase === gamePhases.BLOCK_SELECTION && renderBlockSelection()}
       {phase === gamePhases.BLOCK_PLACEMENT && renderBlockPlacement()} 
