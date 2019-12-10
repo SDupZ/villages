@@ -1,6 +1,12 @@
 # Villages
 (Name TBC)
 
+## Installation
+
+```
+npm install pm2 -g
+```
+
 ## Ideas
 
 - Keep track of all gamestate / boardstate changes to replay entire game.
