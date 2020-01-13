@@ -7,6 +7,11 @@
 npm install pm2 -g
 ```
 
+## UI
+
+https://docs.google.com/presentation/d/1mfAoSyv39pk2niJZPJStUtHr2yB0TfRw3STV2i640hk/edit#slide=id.p
+
+
 ## Ideas
 
 - Keep track of all gamestate / boardstate changes to replay entire game.
