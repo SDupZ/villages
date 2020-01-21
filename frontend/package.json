@@ -29,7 +29,5 @@
       "last 1 safari version"
     ]
   },
-  "devDependencies": {
-    "bpk-component-input": "^5.0.23"
-  }
+  "devDependencies": {}
 }

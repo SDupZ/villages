@@ -1,12 +1,14 @@
 import styled from 'styled-components';
 import screenSize from 'styles/mediaQueries';
-import colours from './colours';
+import colours from 'constants/colors';
 
-export const StyledHeading = styled.h1`
+export const Hero = styled.h1`
   color: ${colours.navy};
   font-weight: 700;
   font-size: 2.4rem;
   line-height: 1.25;
+
+  text-align: center;
 
   ${screenSize.minTablet`
     font-size: 3.6rem;
@@ -14,7 +16,7 @@ export const StyledHeading = styled.h1`
   `}
 `;
 
-export const StyledHeadingTwo = styled.h2`
+export const Heading = styled.h2`
   color: ${colours.navy};
   font-weight: 700;
   font-size: 2.4rem;
@@ -26,7 +28,7 @@ export const StyledHeadingTwo = styled.h2`
   `}
 `;
 
-export const StyledHeadingThree = styled.h3`
+export const Subheading = styled.h3`
   color: ${colours.navy};
   font-weight: 700;
   font-size: 1.8rem;
@@ -38,19 +40,8 @@ export const StyledHeadingThree = styled.h3`
   `}
 `;
 
-export const StyledSubHeading = styled.h5`
-  color: ${colours.navy};
-  font-weight: 500;
-  font-size: 1.6rem;
-  line-height: 1.38;
 
-  ${screenSize.minTablet`
-    font-size: 1.8rem;
-    line-height: 1.44;
-  `}
-`;
-
-export const StyledParagraph = styled.p`
+export const Standard = styled.span`
   color: ${colours.stone};
   font-weight: 400;
   font-size: 1.4rem;
@@ -62,7 +53,7 @@ export const StyledParagraph = styled.p`
   `}
 `;
 
-export const StyledParagraphTwo = styled.p`
+export const Small = styled.span`
   color: ${colours.stone};
   font-weight: 400;
   font-size: 1.2rem;

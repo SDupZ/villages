@@ -9,6 +9,7 @@ export const Wrapper = styled.div`
   margin: 0 auto;
 `;
 
+
 export const JoinGame = styled.div`
   display: flex;
   flex-direction: column;
