@@ -10,7 +10,7 @@ export const Wrapper = styled.div`
 `;
 
 
-export const JoinGame = styled.div`
+export const JoinOrCreate = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;

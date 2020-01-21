@@ -1,10 +1,10 @@
 import React from 'react';
-import JoinGame from 'pages/JoinGame';
+import JoinOrCreate from 'pages/JoinOrCreate';
 import Lobby from 'pages/Lobby';
 import GameSession from 'pages/GameSession';
 
 function App() {
-  return <JoinGame />;
+  return <JoinOrCreate />;
   // return <GameSession />;
 }
 
