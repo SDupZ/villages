@@ -1,4 +1,7 @@
 import React from 'react';
+import io from 'socket.io-client';
+
+const API_ENDPOINT = 'http://localhost:3005';
 
 const useJoinOrCreate = () => {
   const [isLoading, setLoading] = React.useState(false);
@@ -10,12 +13,22 @@ const useJoinOrCreate = () => {
 
   const createGame = async (playerName) => {
     return new Promise((resolve, reject) => {
-      setError(null);
-      setLoading(true);
-      setTimeout(() => {
-        resolve();
-        setLoading(false);
-      }, 3000)
+      try {
+        setError(null);
+        setLoading(true);
+
+        const socket = io(API_ENDPOINT);
+        socket.emit('CREATE_GAME', playerName)
+
+        setTimeout(() => {
+          resolve();
+          setLoading(false);
+        }, 3000)
+
+      } catch (err) {
+        console.log(err)
+      }
+      
     })
   };
 

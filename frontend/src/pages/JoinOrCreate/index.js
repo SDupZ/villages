@@ -1,5 +1,6 @@
 import React from 'react';
 import { Hero, Standard } from 'styles/typography';
+import { useHistory } from "react-router-dom";
 import useJoinOrCreate from './useJoinOrCreate';
 import * as Styled from './JoinOrCreate.styled';
 
@@ -7,6 +8,7 @@ export default function JoinOrCreate(props) {
   const [playerName, setPlayerName] = React.useState('');
   const [lobbyCode, setLobbyCode] = React.useState('');
   const { joinGame, createGame, isLoading, error } = useJoinOrCreate();
+  const history = useHistory();
 
   const onChangeName = (e) => {
     setPlayerName(e.target.value);
@@ -22,6 +24,7 @@ export default function JoinOrCreate(props) {
   }
   const onClickCreate = async () => {
     await createGame(playerName);
+    // history.push("/lobby");
   }
 
   return (

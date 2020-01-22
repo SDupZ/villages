@@ -14,8 +14,17 @@ const server = http.createServer(app.callback());
 // Socket IO stuff
 const io = socketIO(server);
 
+
 io.on('connection', function(socket){
   console.log('a user connected');
+
+  socket.on('CREATE_GAME', playerName => {
+    console.log('Create game on server with player name:', playerName);
+  })
+
+  socket.on('disconnect', function(){
+    console.log('user disconnected');
+  });
 });
 
 
