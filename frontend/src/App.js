@@ -7,16 +7,20 @@ import {
 import JoinOrCreate from 'pages/JoinOrCreate';
 import Lobby from 'pages/Lobby';
 import GameSession from 'pages/GameSession';
+import GlobalStyle from 'styles/globalStyles';
 
 function App() {
   return (
-    <Router>
-      <Switch>
-        <Route path="/join"><JoinOrCreate /></Route>
-        <Route path="/lobby"><Lobby /></Route>
-        <Route path="/session"><GameSession /></Route>
-      </Switch>
-    </Router>
+    <>
+      <GlobalStyle />
+      <Router>
+        <Switch>
+          <Route path="/lobby"><Lobby /></Route>
+          <Route path="/session"><GameSession /></Route>
+          <Route path="/"><JoinOrCreate /></Route>
+        </Switch>
+      </Router>
+    </>
   )
 }
 
