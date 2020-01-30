@@ -1,6 +1,7 @@
 const Koa = require('koa');
 const http = require('http')
 const socketIO = require('socket.io');
+const { getRandomRoomCode } = require('./utils.js');
 
 const app = new Koa();
 
@@ -16,11 +17,14 @@ const io = socketIO(server);
 
 
 io.on('connection', function(socket){
-  console.log('a user connected');
+  const roomCode = getRandomRoomCode();
+  console.log(`A user connected. Room code: ${roomCode}`);
+
 
   socket.on('CREATE_GAME', playerName => {
     console.log('Create game on server with player name:', playerName);
   })
+
 
   socket.on('disconnect', function(){
     console.log('user disconnected');
