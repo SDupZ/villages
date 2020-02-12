@@ -7,8 +7,9 @@ const useJoinOrCreate = () => {
   const [isLoading, setLoading] = React.useState(false);
   const [error, setError] = React.useState(null);
   
-  const joinGame = (playerName, lobbyCode) => {
-    console.log(playerName, lobbyCode);
+  const joinGame = (playerName, roomCode) => {
+    console.log(playerName, roomCode);
+    const roomSocket = io(`${API_ENDPOINT}/${roomCode}`);
   };
 
   const createGame = async (playerName) => {
@@ -20,11 +21,10 @@ const useJoinOrCreate = () => {
         const socket = io(API_ENDPOINT);
         socket.emit('CREATE_GAME', playerName)
 
-        setTimeout(() => {
-          resolve();
-          setLoading(false);
-        }, 3000)
-
+        socket.on('GAME_CREATED', (roomCode) => {
+          const roomSocket = io(`${API_ENDPOINT}/${roomCode}`);
+          resolve(roomCode);
+        });
       } catch (err) {
         console.log(err)
       }

@@ -18,13 +18,15 @@ export default function JoinOrCreate(props) {
     setLobbyCode(e.target.value);
   }
 
-  const onClickJoin = () => {
+  const onClickJoin = async (e) => {
+    e.preventDefault();
     // TODO: Some input validations
-    joinGame(playerName, lobbyCode);
+    await joinGame(playerName, lobbyCode);
   }
-  const onClickCreate = async () => {
-    await createGame(playerName);
-    // history.push("/lobby");
+  const onClickCreate = async (e) => {
+    e.preventDefault();
+    const roomCode = await createGame(playerName);
+    history.push(`/lobby?code=${roomCode}`);
   }
 
   return (
