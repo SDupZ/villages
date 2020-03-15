@@ -1,29 +1,14 @@
-const Koa = require('koa');
-const http = require('http')
-const socketIO = require('socket.io');
+const { ApolloServer } = require('apollo-server');
+const {
+  types,
+  queries,
+  mutations,
+} = require('./schema');
+const resolvers = require('./resolvers');
 
-const { handleCreateGame } = require('./handlers');
-const app = new Koa();
+const server = new ApolloServer({ typeDefs: [types, queries, mutations], resolvers });
 
-app.use(async ctx => {
-  ctx.body = 'Hello World';
+server.listen().then(({ url }) => {
+  console.log(`🚀  Server ready at ${url}`);
 });
 
-const server = http.createServer(app.callback());
-
-
-// Socket IO stuff
-const io = socketIO(server);
-
-io.on('connection', function(socket){
-  console.log('A user connected...');
-
-  socket.on('CREATE_GAME', handleCreateGame(io));
-
-  socket.on('disconnect', function(){
-    console.log('user disconnected');
-  });
-});
-
-
-server.listen(3005);

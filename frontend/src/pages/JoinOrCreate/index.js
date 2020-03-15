@@ -8,35 +8,49 @@ export default function JoinOrCreate(props) {
   const [playerName, setPlayerName] = React.useState('');
   const [lobbyCode, setLobbyCode] = React.useState('');
   const { joinGame, createGame, isLoading, error } = useJoinOrCreate();
+
   const history = useHistory();
+  const formRef = React.useRef(null);
+
+  const isFormValid = () => {
+    return formRef.current.reportValidity();
+  };
 
   const onChangeName = (e) => {
     setPlayerName(e.target.value);
-  }
+  };
   
   const onChangeLobbyCode = (e) => {
     setLobbyCode(e.target.value);
-  }
+  };
 
   const onClickJoin = async (e) => {
     e.preventDefault();
-    // TODO: Some input validations
-    await joinGame(playerName, lobbyCode);
-  }
+    
+    if (isFormValid()) {
+      await joinGame(playerName, lobbyCode);
+    }
+  };
+
   const onClickCreate = async (e) => {
     e.preventDefault();
-    const roomCode = await createGame(playerName);
-    history.push(`/lobby?code=${roomCode}`);
-  }
+
+    if (isFormValid()) {
+      const roomCode = await createGame(playerName);
+      history.push(`/lobby?code=${roomCode}`);
+    }
+  };
+
+
 
   return (
     <Styled.Wrapper>
       <Styled.JoinOrCreate>
-        <form>
+        <form ref={formRef}>
           <Styled.FormFieldSet disabled={isLoading}>
             <Hero>Tiny Towns</Hero>
             <Standard>Player Name</Standard>
-            <input value={playerName} onChange={onChangeName} />
+            <input value={playerName} onChange={onChangeName} required />
             
             <button onClick={onClickCreate}>Create</button>
             <Standard>Or</Standard>

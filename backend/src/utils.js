@@ -1,6 +1,6 @@
 const alphabet = 'abcdefghijklmnopqrstuvwxyz0123456789'
 
-const getRandomRoomCode = () => {
+const getRandomLobbyCode = () => {
   const roomCodeLength = 6;
   let roomCode = '';
 
@@ -13,5 +13,5 @@ const getRandomRoomCode = () => {
 }
 
 module.exports = {
-  getRandomRoomCode: getRandomRoomCode,
+  getRandomLobbyCode,
 };

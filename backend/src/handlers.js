@@ -1,18 +1,17 @@
-const { getRandomRoomCode } = require('./utils');
+const { v4 } = require('uuid')
+const { getRandomLobbyCode } = require('./utils');
 
-const handleCreateGame = io => playerName => {
-  const roomCode = getRandomRoomCode();
-  console.log(`${playerName} created a game with room code: ${roomCode}`);
+const createLobby = (playerName) => {
+  const code = getRandomLobbyCode();
+  console.log(`${playerName} created a lobby with code: ${code}`);
 
-  const namespace = io.of(`/${roomCode}`);
-  namespace.on('connection', (socket) => {
-    console.log(`Connected to dynamic namespace... ${roomCode}`);
-  });
-
-  io.emit('GAME_CREATED', roomCode);
-};
-
+  return {
+    id: v4(),
+    code,
+    creationDateUnixMilli: new Date(),
+  }
+}
 
 module.exports = {
-  handleCreateGame: handleCreateGame,
+  createLobby,
 };
