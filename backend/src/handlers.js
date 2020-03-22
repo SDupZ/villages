@@ -1,14 +1,26 @@
 const { v4 } = require('uuid')
 const { getRandomLobbyCode } = require('./utils');
 
-const createLobby = (playerName) => {
+const createLobby = async (db, playerName) => {
+  const lobbyId = v4();
   const code = getRandomLobbyCode();
-  console.log(`${playerName} created a lobby with code: ${code}`);
+  const creationDateUnixMilli = new Date();
 
-  return {
-    id: v4(),
+  const newLobby = {
     code,
-    creationDateUnixMilli: new Date(),
+    hostPlayerName: playerName,
+    players: [playerName],
+    creationDateUnixMilli,
+  }
+
+  // Create lobby
+  let newLobbyRef = db.collection('lobby').doc(lobbyId);
+  newLobbyRef.set(newLobby);
+
+  console.log(`Lobby created (${lobbyId}) by ${playerName} with code: ${code}`);
+  return {
+    id: lobbyId,
+    ...newLobby,
   }
 }
 

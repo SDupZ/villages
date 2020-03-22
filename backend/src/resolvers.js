@@ -27,8 +27,9 @@ const resolvers = {
   },
 
   Mutation: {
-    createLobby(_, { playerName }, context) {
-      return createLobby(playerName);
+    createLobby(_, { playerName }, { db }) {
+      console.log(`createLobby called with playerName: ${playerName}`);
+      return createLobby(db, playerName);
     },
   }
 };

@@ -6,6 +6,8 @@ const types = gql`
   type Lobby {
     id: String
     code: String
+    players: [String]
+    hostPlayerName: String
     creationDateUnixMilli: DateUnixMilli
   }
 `;
