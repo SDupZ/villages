@@ -23,3 +23,5 @@ yarn-debug.log*
 yarn-error.log*
 
 .vscode/
+backend/src/tiny-towns-firebase-adminsdk-py34p-ce927856e1.json
+
