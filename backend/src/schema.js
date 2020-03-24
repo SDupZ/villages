@@ -14,12 +14,13 @@ const types = gql`
 
 const queries = gql`
   type Query {
-    getLobbies: [Lobby]
+    getLobbyByCode(lobbyCode: String!): Lobby
   }
 `;
 
 const mutations = gql`
   type Mutation {
+    joinLobby(playerName: String!, lobbyCode: String!): Lobby
     createLobby(playerName: String!): Lobby
   }
 `;

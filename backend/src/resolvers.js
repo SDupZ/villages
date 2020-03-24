@@ -1,8 +1,7 @@
 const { GraphQLScalarType } = require('graphql');
 const { Kind } = require('graphql/language');
 
-const { getLobbies } = require('./repository');
-const { createLobby } = require('./handlers');
+const { joinLobby, createLobby, getLobbyByCode } = require('./repository');
 
 const resolvers = {
   DateUnixMilli: new GraphQLScalarType({
@@ -12,7 +11,10 @@ const resolvers = {
       return new Date(value); // value from the client
     },
     serialize(value) {
-      return value.getTime(); // value sent to the client
+      if (value instanceof Date) {
+        return value.getTime();
+      }
+      return value.toMillis(); // value sent to the client
     },
     parseLiteral(ast) {
       if (ast.kind === Kind.INT) {
@@ -23,10 +25,16 @@ const resolvers = {
   }),
 
   Query: {
-    getLobbies: () => getLobbies(),
+    getLobbyByCode(_, { lobbyCode }, { db }) {
+      return getLobbyByCode(db, lobbyCode);
+    }
   },
 
   Mutation: {
+    joinLobby(_, { playerName, lobbyCode }, { db }) {
+      console.log(`joinLobby called with playerName: ${playerName}, lobbyCode: ${lobbyCode}`);
+      return joinLobby(db, playerName, lobbyCode);
+    },
     createLobby(_, { playerName }, { db }) {
       console.log(`createLobby called with playerName: ${playerName}`);
       return createLobby(db, playerName);
