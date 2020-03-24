@@ -1,16 +1,22 @@
 import React from 'react';
 import { Hero, Standard } from 'styles/typography';
-import { useHistory } from "react-router-dom";
-import useJoinOrCreate from './useJoinOrCreate';
+import { Redirect } from "react-router-dom";
+import { useMutation } from '@apollo/react-hooks';
+import { MUTATION_CREATE_LOBBY } from './graphql';
 import * as Styled from './JoinOrCreate.styled';
+
 
 export default function JoinOrCreate(props) {
   const [playerName, setPlayerName] = React.useState('');
   const [lobbyCode, setLobbyCode] = React.useState('');
-  const { joinGame, createGame, isLoading, error } = useJoinOrCreate();
+  const [createLobby, { data, loading }] = useMutation(MUTATION_CREATE_LOBBY);
 
-  const history = useHistory();
   const formRef = React.useRef(null);
+
+  if (data && data.createLobby) {
+    const roomCode = data.createLobby.code;
+    return <Redirect to={`/lobby?code=${roomCode}`} />;
+  }
 
   const isFormValid = () => {
     return formRef.current.reportValidity();
@@ -28,7 +34,7 @@ export default function JoinOrCreate(props) {
     e.preventDefault();
     
     if (isFormValid()) {
-      await joinGame(playerName, lobbyCode);
+      // await joinGame(playerName, lobbyCode);
     }
   };
 
@@ -36,18 +42,15 @@ export default function JoinOrCreate(props) {
     e.preventDefault();
 
     if (isFormValid()) {
-      const roomCode = await createGame(playerName);
-      history.push(`/lobby?code=${roomCode}`);
+      createLobby({ variables: { playerName }});
     }
   };
-
-
 
   return (
     <Styled.Wrapper>
       <Styled.JoinOrCreate>
         <form ref={formRef}>
-          <Styled.FormFieldSet disabled={isLoading}>
+          <Styled.FormFieldSet disabled={loading}>
             <Hero>Tiny Towns</Hero>
             <Standard>Player Name</Standard>
             <input value={playerName} onChange={onChangeName} required />
@@ -60,7 +63,7 @@ export default function JoinOrCreate(props) {
           </Styled.FormFieldSet>
         </form>
 
-        {isLoading && <div>Loading . . .</div>}
+        {loading && <div>Loading . . .</div>}
       </Styled.JoinOrCreate>
     </Styled.Wrapper>
   );
