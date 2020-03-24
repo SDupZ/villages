@@ -1,5 +1,5 @@
 const admin = require('firebase-admin');
-let serviceAccount = require('./tiny-towns-firebase-adminsdk-py34p-789ee50c66.json');
+let serviceAccount = require('./tiny-towns-firebase-adminsdk-py34p-ce927856e1.json');
 
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount)
