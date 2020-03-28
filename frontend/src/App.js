@@ -20,19 +20,19 @@ const client = new ApolloClient({
 
 
 function App() {
-  const [playerName, setPlayerName] = usePersistedState('playerName', '');
+  const [currentPlayerName, setCurrentPlayerName] = usePersistedState('playerName', '');
 
   return (
     <ApolloProvider client={client}>
       <GlobalStyle />
       <Router>
         <Switch>
-          <Route path="/lobby"><Lobby /></Route>
+          <Route path="/lobby"><Lobby currentPlayerName={currentPlayerName} /></Route>
           <Route path="/session"><GameSession /></Route>
           <Route path="/">
             <JoinOrCreate
-              initialPlayerName={playerName}
-              setGlobalPlayerName={setPlayerName}
+              currentPlayerName={currentPlayerName}
+              setCurrentPlayerName={setCurrentPlayerName}
             />
           </Route>
         </Switch>

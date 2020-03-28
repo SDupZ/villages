@@ -1,6 +1,7 @@
 import React from 'react';
 import gamePhases from 'constants/gamePhases';
 import { getInitialCellData } from 'utils';
+import PageWrapper from 'components/PageWrapper';
 import GameBoard from './components/GameBoard';
 import BlockSelection from './components/BlockSelection';
 import * as Styled from './GameSession.styled';
@@ -104,7 +105,7 @@ export default function GameSession() {
   const renderBlockPlacement = () => <div>Phase 2</div>;
 
   return (
-    <Styled.Wrapper>
+    <PageWrapper>
       <Styled.GameBoard>
         <GameBoard
           boardState={boardState}
@@ -122,6 +123,6 @@ export default function GameSession() {
           <div>Players left to end their turn: {gameState.playersLeftToEndTurn.map((player) => (player.name))}</div>
         </React.Fragment>
       )}
-    </Styled.Wrapper>
+    </PageWrapper>
   );
 }

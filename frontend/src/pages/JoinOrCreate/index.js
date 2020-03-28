@@ -2,17 +2,18 @@ import React from 'react';
 import { Hero, Standard } from 'styles/typography';
 import { Redirect } from "react-router-dom";
 import { useMutation } from '@apollo/react-hooks';
+import PageWrapper from 'components/PageWrapper';
 import { MUTATION_JOIN_LOBBY, MUTATION_CREATE_LOBBY } from './graphql';
 import * as Styled from './JoinOrCreate.styled';
 
 
 export default function JoinOrCreate(props) {
   const {
-    initialPlayerName,
-    setGlobalPlayerName,
+    currentPlayerName,
+    setCurrentPlayerName,
   } = props;
 
-  const [playerName, setPlayerName] = React.useState(initialPlayerName);
+  const [playerName, setPlayerName] = React.useState(currentPlayerName);
   const [lobbyId, setLobbyId] = React.useState('');
   const [joinLobby, { data: joinLobbyData, joinLobbyLoading }] = useMutation(MUTATION_JOIN_LOBBY);
   const [createLobby, { data: createLobbyData, createLobbyLoading }] = useMutation(MUTATION_CREATE_LOBBY);
@@ -24,7 +25,6 @@ export default function JoinOrCreate(props) {
     (createLobbyData && createLobbyData.createLobby)
     || (joinLobbyData && joinLobbyData.joinLobby)   
   ){
-    console.log()
     const lobbyId = (createLobbyData && createLobbyData.createLobby && createLobbyData.createLobby.id)
       || (joinLobbyData && joinLobbyData.joinLobby && joinLobbyData.joinLobby.id);
     return <Redirect to={`/lobby?id=${lobbyId}`} />;
@@ -44,7 +44,7 @@ export default function JoinOrCreate(props) {
 
   const onClickJoin = async (e) => {
     e.preventDefault();
-    setGlobalPlayerName(playerName);
+    setCurrentPlayerName(playerName);
     
     if (isFormValid()) {
       joinLobby({ variables: { playerName, id: lobbyId }});
@@ -53,7 +53,7 @@ export default function JoinOrCreate(props) {
 
   const onClickCreate = async (e) => {
     e.preventDefault();
-    setGlobalPlayerName(playerName);
+    setCurrentPlayerName(playerName);
 
     if (isFormValid()) {
       createLobby({ variables: { playerName }});
@@ -61,7 +61,7 @@ export default function JoinOrCreate(props) {
   };
 
   return (
-    <Styled.Wrapper>
+    <PageWrapper>
       <Styled.JoinOrCreate>
         <form ref={formRef}>
           <Styled.FormFieldSet disabled={loading}>
@@ -80,11 +80,11 @@ export default function JoinOrCreate(props) {
 
         {loading && <div>Loading . . .</div>}
       </Styled.JoinOrCreate>
-    </Styled.Wrapper>
+    </PageWrapper>
   );
 }
 
 JoinOrCreate.defaultProps = {
-  initialPlayerName: '',
-  setGlobalPlayerName: () => {},
+  currentPlayerName: '',
+  setCurrentPlayerName: () => {},
 };
