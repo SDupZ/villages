@@ -10,6 +10,7 @@ import GameSession from 'pages/GameSession';
 import GlobalStyle from 'styles/globalStyles';
 import ApolloClient from 'apollo-boost';
 import { ApolloProvider } from '@apollo/react-hooks';
+import usePersistedState from './hooks/usePersistedState';
 
 const API_ENDPOINT = 'http://localhost:4000';
 
@@ -19,7 +20,7 @@ const client = new ApolloClient({
 
 
 function App() {
-  const [playerName, setPlayerName] = React.useState('');
+  const [playerName, setPlayerName] = usePersistedState('playerName', '');
 
   return (
     <ApolloProvider client={client}>
