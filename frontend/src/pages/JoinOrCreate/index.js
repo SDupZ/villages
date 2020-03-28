@@ -2,7 +2,7 @@ import React from 'react';
 import { Hero, Standard } from 'styles/typography';
 import { Redirect } from "react-router-dom";
 import { useMutation } from '@apollo/react-hooks';
-import { MUTATION_CREATE_LOBBY } from './graphql';
+import { MUTATION_JOIN_LOBBY, MUTATION_CREATE_LOBBY } from './graphql';
 import * as Styled from './JoinOrCreate.styled';
 
 
@@ -14,12 +14,19 @@ export default function JoinOrCreate(props) {
 
   const [playerName, setPlayerName] = React.useState(initialPlayerName);
   const [lobbyId, setLobbyId] = React.useState('');
-  const [createLobby, { data, loading }] = useMutation(MUTATION_CREATE_LOBBY);
-
+  const [joinLobby, { data: joinLobbyData, joinLobbyLoading }] = useMutation(MUTATION_JOIN_LOBBY);
+  const [createLobby, { data: createLobbyData, createLobbyLoading }] = useMutation(MUTATION_CREATE_LOBBY);
   const formRef = React.useRef(null);
 
-  if (data && data.createLobby) {
-    const lobbyId = data.createLobby.id;
+  const loading = joinLobbyLoading || createLobbyLoading;
+
+  if (
+    (createLobbyData && createLobbyData.createLobby)
+    || (joinLobbyData && joinLobbyData.joinLobby)   
+  ){
+    console.log()
+    const lobbyId = (createLobbyData && createLobbyData.createLobby && createLobbyData.createLobby.id)
+      || (joinLobbyData && joinLobbyData.joinLobby && joinLobbyData.joinLobby.id);
     return <Redirect to={`/lobby?id=${lobbyId}`} />;
   }
 
@@ -40,7 +47,7 @@ export default function JoinOrCreate(props) {
     setGlobalPlayerName(playerName);
     
     if (isFormValid()) {
-      // await joinGame(playerName, lobbyId);
+      joinLobby({ variables: { playerName, id: lobbyId }});
     }
   };
 
