@@ -1,17 +1,17 @@
 const alphabet = 'abcdefghijklmnopqrstuvwxyz0123456789'
 
-const getRandomLobbyCode = () => {
-  const roomCodeLength = 6;
-  let roomCode = '';
+const getRandomLobbyId = () => {
+  const lobbyIdLength = 6;
+  let lobbyId = '';
 
-  for (let i = 0; i < roomCodeLength; i++) {
+  for (let i = 0; i < lobbyIdLength; i++) {
     const randomIndex = Math.floor(Math.random() * alphabet.length);
-    roomCode = roomCode.concat(alphabet[randomIndex]);
+    lobbyId = lobbyId.concat(alphabet[randomIndex]);
   }
 
-  return roomCode;
+  return lobbyId;
 }
 
 module.exports = {
-  getRandomLobbyCode,
+  getRandomLobbyId,
 };

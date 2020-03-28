@@ -19,6 +19,8 @@ const client = new ApolloClient({
 
 
 function App() {
+  const [playerName, setPlayerName] = React.useState('');
+
   return (
     <ApolloProvider client={client}>
       <GlobalStyle />
@@ -26,7 +28,12 @@ function App() {
         <Switch>
           <Route path="/lobby"><Lobby /></Route>
           <Route path="/session"><GameSession /></Route>
-          <Route path="/"><JoinOrCreate /></Route>
+          <Route path="/">
+            <JoinOrCreate
+              initialPlayerName={playerName}
+              setGlobalPlayerName={setPlayerName}
+            />
+          </Route>
         </Switch>
       </Router>
     </ApolloProvider>

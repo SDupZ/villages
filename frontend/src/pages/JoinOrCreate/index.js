@@ -7,15 +7,20 @@ import * as Styled from './JoinOrCreate.styled';
 
 
 export default function JoinOrCreate(props) {
-  const [playerName, setPlayerName] = React.useState('');
-  const [lobbyCode, setLobbyCode] = React.useState('');
+  const {
+    initialPlayerName,
+    setGlobalPlayerName,
+  } = props;
+
+  const [playerName, setPlayerName] = React.useState(initialPlayerName);
+  const [lobbyId, setLobbyId] = React.useState('');
   const [createLobby, { data, loading }] = useMutation(MUTATION_CREATE_LOBBY);
 
   const formRef = React.useRef(null);
 
   if (data && data.createLobby) {
-    const roomCode = data.createLobby.code;
-    return <Redirect to={`/lobby?code=${roomCode}`} />;
+    const lobbyId = data.createLobby.id;
+    return <Redirect to={`/lobby?id=${lobbyId}`} />;
   }
 
   const isFormValid = () => {
@@ -26,20 +31,22 @@ export default function JoinOrCreate(props) {
     setPlayerName(e.target.value);
   };
   
-  const onChangeLobbyCode = (e) => {
-    setLobbyCode(e.target.value);
+  const onChangeLobbyId = (e) => {
+    setLobbyId(e.target.value);
   };
 
   const onClickJoin = async (e) => {
     e.preventDefault();
+    setGlobalPlayerName(playerName);
     
     if (isFormValid()) {
-      // await joinGame(playerName, lobbyCode);
+      // await joinGame(playerName, lobbyId);
     }
   };
 
   const onClickCreate = async (e) => {
     e.preventDefault();
+    setGlobalPlayerName(playerName);
 
     if (isFormValid()) {
       createLobby({ variables: { playerName }});
@@ -54,12 +61,13 @@ export default function JoinOrCreate(props) {
             <Hero>Tiny Towns</Hero>
             <Standard>Player Name</Standard>
             <input value={playerName} onChange={onChangeName} required />
-            
-            <button onClick={onClickCreate}>Create</button>
-            <Standard>Or</Standard>
             <Standard>Lobby Code</Standard>
-            <input value={lobbyCode} onChange={onChangeLobbyCode} />
+            <input value={lobbyId} onChange={onChangeLobbyId} />
             <button onClick={onClickJoin}>Join</button>
+
+            <Standard>Or</Standard>
+            <button onClick={onClickCreate}>Create</button>
+            
           </Styled.FormFieldSet>
         </form>
 
@@ -68,3 +76,8 @@ export default function JoinOrCreate(props) {
     </Styled.Wrapper>
   );
 }
+
+JoinOrCreate.defaultProps = {
+  initialPlayerName: '',
+  setGlobalPlayerName: () => {},
+};

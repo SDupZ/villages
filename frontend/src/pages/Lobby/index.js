@@ -1,12 +1,14 @@
 import React from 'react';
 import { useQuery } from '@apollo/react-hooks';
-import { QUERY_GET_LOBBY_BY_CODE } from './graphql';
+import { QUERY_GET_LOBBY } from './graphql';
 import * as Styled from './Lobby.styled';
+import useQueryParams from '../../hooks/useQueryParams';
 
-export default function Lobby(props) {
-  const lobbyCode = '08k6x5';
-  const { loading, data } = useQuery(QUERY_GET_LOBBY_BY_CODE, {
-    variables: { lobbyCode },
+export default function Lobby() {
+  const queryParams = useQueryParams();
+  const lobbyId = queryParams.get("id")
+  const { loading, data } = useQuery(QUERY_GET_LOBBY, {
+    variables: { id: lobbyId },
   });
 
   if (loading) return <p>Loading ...</p>;
@@ -14,11 +16,10 @@ export default function Lobby(props) {
   if (data) {
     return (
       <Styled.Wrapper>
-        <div>{data.getLobbyByCode.id}</div>
-        <div>{data.getLobbyByCode.code}</div>
-        <div>{data.getLobbyByCode.players.map(player => player)}</div>
-        <div>HOST: {data.getLobbyByCode.hostPlayerName}</div>
-        <div>{data.getLobbyByCode.creationDateUnixMilli}</div>
+        <div>{data.getLobby.id}</div>
+        <div>{data.getLobby.players.map(player => player)}</div>
+        <div>HOST: {data.getLobby.hostPlayerName}</div>
+        <div>{data.getLobby.creationDateUnixMilli}</div>
       </Styled.Wrapper>
     );
   }

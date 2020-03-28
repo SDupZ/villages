@@ -1,10 +1,9 @@
 import { gql } from "apollo-boost";
 
-const QUERY_GET_LOBBY_BY_CODE = gql`
-  query getLobbyByCode($lobbyCode: String!) {
-    getLobbyByCode(lobbyCode: $lobbyCode) {
+const QUERY_GET_LOBBY = gql`
+  query getLobby($id: String!) {
+    getLobby(id: $id) {
       id
-      code
       players
       hostPlayerName
       creationDateUnixMilli
@@ -13,5 +12,5 @@ const QUERY_GET_LOBBY_BY_CODE = gql`
 `;
 
 export {
-  QUERY_GET_LOBBY_BY_CODE,
+  QUERY_GET_LOBBY,
 }

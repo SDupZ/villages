@@ -1,76 +1,63 @@
 const admin = require('firebase-admin');
-const { v4 } = require('uuid')
-const { getRandomLobbyCode } = require('./utils');
+const { getRandomLobbyId } = require('./utils');
 
-const getLobbySnapshotByCode = async (db, lobbyCode) => {
-  const lobbiesRef = db.collection("lobby");
 
-  const lobbies = lobbiesRef.where('code', '==', lobbyCode);
-  const snapshot = await lobbies.get();
+const getLobby = async (db, id) => {
+  console.log(`getLobby ${id}`);
 
-  if (snapshot.empty) {
-    console.log('No matching documents.');
-    return;
+  const lobbyRef = db.collection("lobby").doc(id);
+  const lobbyDoc = await lobbyRef.get();
+
+  if (!lobbyDoc.exists) {
+    throw new Error("No such document!")
   }
 
-  // Todo make sure this is actually the right lobby otherwise
-  // weird things will start happening in the future.
-  const lobbySnapshot = snapshot.docs && snapshot.docs.length > 0 && snapshot.docs[0];
-  return lobbySnapshot;
-};
-
-const getLobbyByCode = async (db, lobbyCode) => {
-  console.log(`getLobbyByCode ${lobbyCode}`);
-  
-  const lobbySnapshot = await getLobbySnapshotByCode(db, lobbyCode);
-  const lobby = lobbySnapshot.data();
-  return lobby;
+  return {
+    id,
+    ...lobbyDoc.data(),
+  };
 };
 
 
 const createLobby = async (db, playerName) => {
-  const lobbyId = v4();
-  const code = getRandomLobbyCode();
+  const id = getRandomLobbyId();
+  // TODO retry getRandomcode if it already exists here
   const creationDateUnixMilli = new Date();
 
   const newLobby = {
-    code,
     hostPlayerName: playerName,
     players: [playerName],
     creationDateUnixMilli,
   }
 
   // Create lobby
-  let newLobbyRef = db.collection('lobby').doc(lobbyId);
-  newLobbyRef.set(newLobby);
+  let newLobbyRef = db.collection('lobby').doc(id);
+  await newLobbyRef.set(newLobby);
 
-  console.log(`Lobby created (${lobbyId}) by ${playerName} with code: ${code}`);
+  console.log(`Lobby created (${id}) by ${playerName}`);
   return {
-    id: lobbyId,
+    id,
     ...newLobby,
   }
 };
 
 
-const joinLobby = async (db, playerName, lobbyCode) => {
-  const lobbySnapshot = await getLobbySnapshotByCode(db, lobbyCode);
-  const lobbyId = lobbySnapshot.id;
-
-  const lobbyRef = db.collection('lobby').doc(lobbyId);
+const joinLobby = async (db, id, playerName) => {
+  const lobbyRef = db.collection('lobby').doc(id);
 
   // Atomically add a new region to the "regions" array field.
-  const lobby = lobbyRef.update({
+  const lobby = await lobbyRef.update({
     players: admin.firestore.FieldValue.arrayUnion(playerName)
   });
 
   return {
-    id: lobbyId,
+    id,
     ...lobby,
   }
 };
 
 module.exports = {
-  createLobby,
+  getLobby,
   joinLobby,
-  getLobbyByCode,
+  createLobby,
 };

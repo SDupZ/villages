@@ -1,7 +1,7 @@
 const { GraphQLScalarType } = require('graphql');
 const { Kind } = require('graphql/language');
 
-const { joinLobby, createLobby, getLobbyByCode } = require('./repository');
+const { joinLobby, createLobby, getLobby } = require('./repository');
 
 const resolvers = {
   DateUnixMilli: new GraphQLScalarType({
@@ -25,15 +25,15 @@ const resolvers = {
   }),
 
   Query: {
-    getLobbyByCode(_, { lobbyCode }, { db }) {
-      return getLobbyByCode(db, lobbyCode);
+    getLobby(_, { id }, { db }) {
+      return getLobby(db, id);
     }
   },
 
   Mutation: {
-    joinLobby(_, { playerName, lobbyCode }, { db }) {
-      console.log(`joinLobby called with playerName: ${playerName}, lobbyCode: ${lobbyCode}`);
-      return joinLobby(db, playerName, lobbyCode);
+    joinLobby(_, { playerName, id }, { db }) {
+      console.log(`joinLobby called with playerName: ${playerName}, id: ${id}`);
+      return joinLobby(db, id, playerName);
     },
     createLobby(_, { playerName }, { db }) {
       console.log(`createLobby called with playerName: ${playerName}`);

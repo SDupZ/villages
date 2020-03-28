@@ -5,7 +5,6 @@ const types = gql`
 
   type Lobby {
     id: String
-    code: String
     players: [String]
     hostPlayerName: String
     creationDateUnixMilli: DateUnixMilli
@@ -14,13 +13,13 @@ const types = gql`
 
 const queries = gql`
   type Query {
-    getLobbyByCode(lobbyCode: String!): Lobby
+    getLobby(id: String!): Lobby
   }
 `;
 
 const mutations = gql`
   type Mutation {
-    joinLobby(playerName: String!, lobbyCode: String!): Lobby
+    joinLobby(id: String!, playerName: String!): Lobby
     createLobby(playerName: String!): Lobby
   }
 `;
