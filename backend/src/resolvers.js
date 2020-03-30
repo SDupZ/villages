@@ -1,7 +1,11 @@
 const { GraphQLScalarType } = require('graphql');
 const { Kind } = require('graphql/language');
-
 const { joinLobby, createLobby, getLobby } = require('./repository');
+const { PubSub, withFilter } = require('apollo-server');
+
+const pubsub = new PubSub();
+
+const PLAYER_JOINED_LOBBY = 'PLAYER_JOINED_LOBBY';
 
 const resolvers = {
   DateUnixMilli: new GraphQLScalarType({
@@ -31,15 +35,29 @@ const resolvers = {
   },
 
   Mutation: {
-    joinLobby(_, { playerName, id }, { db }) {
+    async joinLobby(_, { playerName, id }, { db }) {
       console.log(`joinLobby called with playerName: ${playerName}, id: ${id}`);
-      return joinLobby(db, id, playerName);
+      const newLobby = await joinLobby(db, id, playerName);
+
+      pubsub.publish(PLAYER_JOINED_LOBBY, { playerJoinedLobby: newLobby });
+      return newLobby;
     },
     createLobby(_, { playerName }, { db }) {
       console.log(`createLobby called with playerName: ${playerName}`);
       return createLobby(db, playerName);
     },
-  }
+  },
+
+  Subscription: {
+    playerJoinedLobby: {
+      subscribe: withFilter(
+        () => pubsub.asyncIterator([PLAYER_JOINED_LOBBY]),
+        (payload, variables) => { 
+          return payload.playerJoinedLobby.id === variables.id;
+        },
+      ),
+    },
+  },
 };
 
 module.exports = resolvers;

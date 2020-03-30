@@ -24,8 +24,15 @@ const mutations = gql`
   }
 `;
 
+const subscriptions = gql`
+  type Subscription {
+    playerJoinedLobby(id: String!): Lobby
+  }
+`;
+
 module.exports = {
   types,
   queries,
   mutations,
+  subscriptions,
 };

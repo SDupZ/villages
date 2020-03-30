@@ -11,6 +11,19 @@ const QUERY_GET_LOBBY = gql`
   }
 `;
 
+
+const PLAYER_SUBSCRIPTION = gql`
+  subscription playerJoinedLobby($id: String!) {
+    playerJoinedLobby(id: $id) {
+      id
+      players
+      hostPlayerName
+      creationDateUnixMilli
+    }
+  }
+`;
+
 export {
+  PLAYER_SUBSCRIPTION,
   QUERY_GET_LOBBY,
 }

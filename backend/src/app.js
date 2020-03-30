@@ -1,21 +1,31 @@
 const { ApolloServer } = require('apollo-server');
+
 const {
   types,
   queries,
   mutations,
+  subscriptions,
 } = require('./schema');
 const resolvers = require('./resolvers');
 const db = require('./firebase');
 
+
 const server = new ApolloServer({
-  typeDefs: [types, queries, mutations],
+  typeDefs: [types, queries, mutations, subscriptions],
   resolvers,
-  context: () => {
-    return { db };
+  context: async ({ connection }) => {
+    const customContext = { db };
+    if (connection) {
+      // check connection for metadata
+      return connection.context;
+    } else {
+      return customContext
+    }
   }
 });
 
-server.listen().then(({ url }) => {
-  console.log(`🚀  Server ready at ${url}`);
+server.listen().then(({ url, subscriptionsUrl }) => {
+  console.log(`🚀 Server ready at ${url}`);
+  console.log(`🚀 Subscriptions ready at ${subscriptionsUrl}`);
 });
 

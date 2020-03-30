@@ -46,14 +46,13 @@ const joinLobby = async (db, id, playerName) => {
   const lobbyRef = db.collection('lobby').doc(id);
 
   // Atomically add a new region to the "regions" array field.
-  const lobby = await lobbyRef.update({
+ await lobbyRef.update({
     players: admin.firestore.FieldValue.arrayUnion(playerName)
   });
 
-  return {
-    id,
-    ...lobby,
-  }
+  const lobby = await getLobby(db, id);
+
+  return lobby;
 };
 
 module.exports = {
